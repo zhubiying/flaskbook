@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <script type=text/javascript> 
+    function start_long_task() {
+        // add task status elements 
+        div = $('<div class="progress"><div></div><div>0%</div><div>...</div><div>&nbsp;</div></div><hr>');
+        $('#progress').append(div);
+
+        // create a progress bar
+        var nanobar = new Nanobar({
+            bg: '#44f',
+            target: div[0].childNodes[0]
+        });
+
+        // send ajax POST request to start background job
+        $.ajax({
+            type: 'POST',
+            url: '/longtask',
+            success: function(data, status, request) {
+                status_url = request.getResponseHeader('Location');
+                update_progress(status_url, nanobar, div[0]);
+            },
+            error: function() {
+                alert('Unexpected error');
+            }
+        });
+    }
+     function update_progress(status_url, nanobar, status_div) {
+        // send GET request to status URL
+        $.getJSON(status_url, function(data) {
+            // update UI
+            percent = parseInt(data['current'] * 100 / data['total']);
+            nanobar.go(percent);
+            $(status_div.childNodes[1]).text(percent + '%');
+            $(status_div.childNodes[2]).text(data['status']);
+            if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
+                if ('result' in data) {
+                    // show result
+                    $(status_div.childNodes[3]).text('Result: ' + data['result']);
+                }
+                else {
+                    // something unexpected happened
+                    $(status_div.childNodes[3]).text('Result: ' + data['state']);
+                }
+            }
+            else {
+                // rerun in 2 seconds
+                setTimeout(function() {
+                    update_progress(status_url, nanobar, status_div);
+                }, 2000);
+            }
+        });
+    }
+    </script>
+  </head>
+  <body>
+
+    <div class="container">
+
+    {% block content %}{% endblock %}
+    
+      <div class="col-md-offset-3 col-md-6">
+        <hr />
+        <footer>
+          Copyright 2014
+          {% if session.get('is_author') %} - <a href="{{ url_for('admin') }}">Admin</a>{% endif %}
+          {% if session.get('username') %} - <a href="{{ url_for('logout') }}">Logout</a>
+          {% else %} - <a href="{{ url_for('login') }}">Login</a>{% endif %}
+
+        </footer>
+      </div>
+      
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{{ url_for('static', filename='javascript/jquery-1.11.2.min.js') }}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascript/nanobar.min.js') }}"></script>
+  </body>
+</html>

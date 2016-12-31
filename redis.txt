@@ -1,0 +1,32 @@
+  251  pip install redis
+  268  curl -O http://download.redis.io/redis-stable.tar.gz
+  269  tar xzvf redis-stable.tar.gz
+  270  cd redis-stable
+  274  $sudo mkdir /etc/redis
+  275  cd /etc/redis
+  277  cat redis.conf 
+  278  cat redis.conf | grep supervised
+  279  vi redis.conf 
+  280  sudo systemctl start redis
+  281  start redis
+  282  redis
+  283  sudo chmod 770 /var/lib/redis
+  284  cd /var/lib/redis
+  285  sudo cd /var/lib/redis
+  288  cd redis
+  290  sudo chmod 770 /var/lib/redis
+  291  sudo systemctl start redis
+  292  update-rc.d redis enable
+  294  sudo service redis_6379 start
+  295  sudo service redis start
+  296  redis
+  306  sudo service redis start
+  307  redis
+  308  sudo service redis_6379 start
+  309  sudo systemctl start redis
+  312  sudo service redis_6379 start
+  313  sudo systemctl start redis
+  314  sudo service redis start
+  315  sudo service redis_6379 start
+  316  cd /var/lib/redis
+  317  history | grep redis >> redis.txt
