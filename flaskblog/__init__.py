@@ -5,8 +5,7 @@ from flaskext.markdown import Markdown
 import sys
 import os
 from flask_uploads import UploadSet, configure_uploads, IMAGES
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from tasks import *
+from tasks import make_celery
 app = Flask(__name__)
 app.config.from_object('settings')
 celery = make_celery(app)
@@ -22,6 +21,5 @@ md = Markdown(app, extensions=['fenced_code', 'tables'])
 uploaded_images = UploadSet('images', IMAGES)
 configure_uploads(app, uploaded_images)
 
-from blog import views
-from author import views
+
 

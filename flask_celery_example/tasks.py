@@ -1,19 +1,31 @@
 from celery import Celery
 import random
 import time 
-print(__name__)
-celery = Celery(__name__, broker='amqp://zedekiah:auc753@localhost:5672/flask_celery_example')
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
+
+
+
+celery = Celery('tasks',backend='amqp', broker='amqp://zedekiah:auc753@localhost:5672/flask_celery_example')
+
+
+
+
+# app.config['CELERY_IMPORTS'] = ('long_task',)
+# Initialize extensions
+
+
+
 
 @celery.task
 def add(x, y):
     return x + y
-    
 
-@celery.task
-def send_async_email(msg):
-    """Background task to send an email with Flask-Mail."""
-    with app.app_context():
-        mail.send(msg)
+
+    
 
 @celery.task(bind=True, ignore_result=False)
 def long_task(self):
