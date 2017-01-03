@@ -65,16 +65,4 @@ def taskstatus(task_id):
     return jsonify(response)
 
 
-if __name__ == '__main__':
-   app.debug = True
-   app.secret_key = '\x17\xd4\xfe\x08\xa0\x9a\x8f~\x1d\x8eG\xc4\xfc85\xefP\x08\xbc\x90O\x14*\x8a'
-    # logging
-   log = r'/home/ubuntu/myapp'
-   if not os.path.exists(log):
-       os.makedirs(log)    
-   handler = RotatingFileHandler(os.path.join(log, 'error.log'), maxBytes=10000, backupCount=5)
-   handler.setLevel(logging.INFO)
-   formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-   handler.setFormatter(formatter)
-   app.logger.addHandler(handler)    
-   app.run(app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 5000))))
+
