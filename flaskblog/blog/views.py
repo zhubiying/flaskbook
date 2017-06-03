@@ -8,7 +8,7 @@ from author.decorators import login_required, author_required
 import bcrypt
 from slugify import slugify 
 from flask_uploads import UploadNotAllowed
-from flaskblog import celery
+
 POSTS_PER_PAGE = 5
 
 @app.route('/')

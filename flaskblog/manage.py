@@ -9,7 +9,7 @@ print ("after{0}".format(sys.path))
 from flask_script import Manager, Server
 from flask_migrate import MigrateCommand
 from flaskblog import app
-from flaskblog import celery
+from author import views
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
