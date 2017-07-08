@@ -29,7 +29,7 @@ def login():
             username=form.username.data,
             ).first()
         if author:
-            if bcrypt.hashpw(form.password.data, author.password) == author.password:
+            if bcrypt.hashpw(form.password.data.encode('utf-8'), author.password.encode('utf-8')) == author.password.encode('utf-8'):
                 session['username'] = form.username.data
                 session['is_author'] = author.is_author
                 # flash(fib.delay(25))

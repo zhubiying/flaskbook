@@ -17,3 +17,6 @@ MAIL_USE_TLS = True
 MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
 MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 MAIL_DEFAULT_SENDER = 'flask@example.com'
+UPLOAD_FOLDER = '/home/ubuntu/workspace/flaskblog/static/uploads'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','xlsx'])
+
