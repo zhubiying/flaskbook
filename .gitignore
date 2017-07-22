@@ -5,3 +5,5 @@
 .metadata
 .DS_Store
 *.log
+*.config
+settings.py

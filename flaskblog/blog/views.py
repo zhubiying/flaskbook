@@ -1,5 +1,8 @@
 from flaskblog import app
 import os
+import xlrd
+from collections import OrderedDict
+import simplejson as json
 from flask import render_template, redirect, flash, url_for, session, request, jsonify
 from blog.form import SetupForm, PostForm
 from flaskblog import db, uploaded_images
@@ -159,3 +162,29 @@ def upload_myfile():
          <input type=submit value=Upload>
     </form>
     '''
+    
+@app.route('/convert_to_json', methods=['GET', 'POST'])
+def convert_to_json():    
+    wb = xlrd.open_workbook(os.path.join(app.config['UPLOAD_FOLDER'], "Book1.xlsx"))
+    sh = wb.sheet_by_index(0)
+ 
+# List to hold dictionaries
+    cars_list = []
+ 
+    # Iterate through each row in worksheet and fetch values into dict
+    for rownum in range(1, sh.nrows):
+        cars = OrderedDict()
+        row_values = sh.row_values(rownum)
+        cars['car-id'] = row_values[0]
+        cars['make'] = row_values[1]
+        cars['model'] = row_values[2]
+        cars['miles'] = row_values[3]
+     
+        cars_list.append(cars)
+     
+# Serialize the list of dicts to JSON
+    j = json.dumps(cars_list)
+    dbmongo. 
+    # Write to file
+    with open('data.json', 'w') as f:
+        f.write(j)
