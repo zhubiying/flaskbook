@@ -17,6 +17,9 @@ import bcrypt
 from slugify import slugify 
 from flask_uploads import UploadNotAllowed
 from flask.ext import excel 
+from flaskblog import dbmongo
+import pymongo
+from pymongo import MongoClient
 POSTS_PER_PAGE = 5
 
 @app.route('/')
@@ -167,6 +170,7 @@ def upload_myfile():
 def convert_to_json():    
     wb = xlrd.open_workbook(os.path.join(app.config['UPLOAD_FOLDER'], "Book1.xlsx"))
     sh = wb.sheet_by_index(0)
+    c = MongoClient()
  
 # List to hold dictionaries
     cars_list = []
@@ -184,7 +188,19 @@ def convert_to_json():
      
 # Serialize the list of dicts to JSON
     j = json.dumps(cars_list)
-    dbmongo. 
+    # create collection -bying
+    # insert add j into the collection we created
     # Write to file
-    with open('data.json', 'w') as f:
-        f.write(j)
+    c.test.biying.insert(j)
+
+    
+   # with open('data.json', 'w') as f:
+        #f.write(j)
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+    <p><input type=file name=file>
+    <input type=submit value=Upload>
+    </form>'''
